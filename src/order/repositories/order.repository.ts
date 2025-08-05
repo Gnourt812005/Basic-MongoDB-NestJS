@@ -104,7 +104,6 @@ export class OrderRepository implements IOrderRepository {
       return this.convertToModel(createdOrder);
     } catch (error) {
       await session.abortTransaction();
-      console.log("Error: ", error.message)
       throw error;
     } finally {
       (await session).endSession();
