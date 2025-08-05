@@ -9,7 +9,10 @@ import { PaymentModule } from './payment/payment.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
-import { APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { GlobalExceptionFilterFilter } from './global-exception-filter/global-exception-filter.filter';
+import { MetricLoggerInterceptor } from './metric-logger/metric-logger.interceptor';
+import { FormatResponseInterceptor } from './format-response/format-response.interceptor';
 
 @Module({
   imports: [
@@ -41,6 +44,18 @@ import { APP_PIPE } from '@nestjs/core';
       provide: APP_PIPE, 
       useClass: ValidationPipe 
     },
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilterFilter
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: MetricLoggerInterceptor
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: FormatResponseInterceptor
+    }, 
     AppService
   ],
 })

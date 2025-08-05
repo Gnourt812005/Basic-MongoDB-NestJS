@@ -8,7 +8,8 @@ export type PaymentDocument = HydratedDocument<Payment>;
 export class Payment {
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    required: true 
+    required: true,
+    unique: true
   })
   user: Types.ObjectId | User
 

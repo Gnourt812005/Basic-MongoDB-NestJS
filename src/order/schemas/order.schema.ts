@@ -12,7 +12,7 @@ export class OrderItem {
   @Prop({ required: true, min: 1 })
   quantity: number;
 
-  @Prop()
+  @Prop({ required: true, min: 0, isInteger: true })
   price: number;
 }
 
@@ -21,7 +21,7 @@ export class Order {
   @Prop({ 
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'} ]
   })
-  users: Types.ObjectId | User;
+  user: Types.ObjectId | User;
 
   @Prop({ type: [OrderItem], required: true })
   items: OrderItem[]
