@@ -9,9 +9,8 @@ import { IsString } from 'class-validator';
 // }
 
 export class AuthResponseDto {
-  // user: UserInfo;
   @IsString()
-  email: string 
+  id: string;
 
   @IsString()
   token: string;

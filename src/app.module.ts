@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -9,6 +9,7 @@ import { PaymentModule } from './payment/payment.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -35,6 +36,12 @@ import { JwtModule } from '@nestjs/jwt';
     UserModule, AuthModule, OrderModule, ProductModule, PaymentModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_PIPE, 
+      useClass: ValidationPipe 
+    },
+    AppService
+  ],
 })
 export class AppModule {}
