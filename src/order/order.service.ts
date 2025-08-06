@@ -8,27 +8,27 @@ import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 @Injectable()
 export class OrderService {
   constructor(
-    @Inject("IOrderRepository") 
-    private orderRepository: IOrderRepository
+    @Inject('IOrderRepository')
+    private orderRepository: IOrderRepository,
   ) {}
 
-  async create(createdOrderDto: CreateOrderDto): Promise<OrderResponseDto | null> {
+  async create(
+    createdOrderDto: CreateOrderDto,
+  ): Promise<OrderResponseDto | null> {
     const order = new OrderModel({
       userId: createdOrderDto.userId,
-      items: createdOrderDto.items 
-    })
-    const newOrder = await this.orderRepository.create(order)
-    if (!newOrder) 
-      throw new BadRequestException("Bad request");
-    
+      items: createdOrderDto.items,
+    });
+    const newOrder = await this.orderRepository.create(order);
+    if (!newOrder) throw new BadRequestException('Bad request');
+
     return {
       id: newOrder.id as string,
       userId: newOrder.userId,
       items: newOrder.items,
-      createdAt: newOrder.createdAt
-    }
+      createdAt: newOrder.createdAt,
+    };
   }
 
   // private convert/
-
 }

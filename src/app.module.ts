@@ -17,46 +17,50 @@ import { FormatResponseInterceptor } from './format-response/format-response.int
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ".env",
-      isGlobal: true
+      envFilePath: '.env',
+      isGlobal: true,
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.get("MONGO_URI")
+        uri: configService.get('MONGO_URI'),
       }),
-      inject: [ConfigService]
+      inject: [ConfigService],
     }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get("JWT_SECRET") as string,
-        signOptions: {expiresIn: "1h"},
-        global: true 
+        secret: configService.get('JWT_SECRET') as string,
+        signOptions: { expiresIn: '1h' },
+        global: true,
       }),
-      inject: [ConfigService]
+      inject: [ConfigService],
     }),
-    UserModule, AuthModule, OrderModule, ProductModule, PaymentModule
+    UserModule,
+    AuthModule,
+    ProductModule,
+    PaymentModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [
     {
-      provide: APP_PIPE, 
-      useClass: ValidationPipe 
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
     },
     {
       provide: APP_FILTER,
-      useClass: GlobalExceptionFilterFilter
+      useClass: GlobalExceptionFilterFilter,
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: MetricLoggerInterceptor
+      useClass: MetricLoggerInterceptor,
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: FormatResponseInterceptor
-    }, 
-    AppService
+      useClass: FormatResponseInterceptor,
+    },
+    AppService,
   ],
 })
 export class AppModule {}

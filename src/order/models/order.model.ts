@@ -1,11 +1,11 @@
 interface Item {
-  id: string,
-  quantity: number,
-  price: number
+  id: string;
+  quantity: number;
+  price: number;
 }
 
 export class OrderModel {
-  id: string
+  id: string;
   userId: String;
   items: Item[];
   createdAt: Date;

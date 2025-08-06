@@ -1,15 +1,15 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { IPaymentRepository } from "../interfaces/payment-repository.interface";
-import { Payment, PaymentDocument } from "../schemas/payment.schema";
-import { PaymentModel } from "../models/payment.model";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { IPaymentRepository } from '../interfaces/payment-repository.interface';
+import { Payment, PaymentDocument } from '../schemas/payment.schema';
+import { PaymentModel } from '../models/payment.model';
 
 @Injectable()
 export class PaymentRepository implements IPaymentRepository {
   constructor(
     @InjectModel(Payment.name)
-    private paymentModel: Model<PaymentDocument>
+    private paymentModel: Model<PaymentDocument>,
   ) {}
 
   async create(payment: PaymentModel): Promise<PaymentModel | null> {
@@ -31,7 +31,7 @@ export class PaymentRepository implements IPaymentRepository {
       .findOneAndUpdate(
         { user: payment.userId },
         { balance: payment.balance, updatedAt: new Date() },
-        { new: true }
+        { new: true },
       )
       .exec();
     return updatePayment ? this.convertToModel(updatePayment) : null;

@@ -1,25 +1,25 @@
-import { IsDateString, IsNumber, IsString } from "class-validator";
+import { IsDateString, IsNumber, IsString } from 'class-validator';
 
 class Item {
   @IsString()
-  id: string
-  
-  @IsNumber() 
-  quantity: number
+  id: string;
 
-  @IsNumber() 
-  price: number
+  @IsNumber()
+  quantity: number;
+
+  @IsNumber()
+  price: number;
 }
 
 export class OrderResponseDto {
   @IsString()
-  id: string 
-  
+  id: string;
+
   @IsString()
   userId: String;
 
-  items: Item[];  
+  items: Item[];
 
   @IsDateString()
-  createdAt: Date 
-} 
+  createdAt: Date;
+}

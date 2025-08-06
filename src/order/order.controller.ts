@@ -5,12 +5,10 @@ import { OrderService } from './order.service';
 
 @Controller('order')
 export class OrderController {
-  constructor (
-    private orderService: OrderService
-  ) {}
+  constructor(private orderService: OrderService) {}
   @Post()
   async create(
-    @Body() createdOrderDto: CreateOrderDto
+    @Body() createdOrderDto: CreateOrderDto,
   ): Promise<OrderResponseDto | null> {
     return await this.orderService.create(createdOrderDto);
   }

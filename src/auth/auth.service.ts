@@ -1,4 +1,9 @@
-import { Inject, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -14,13 +19,13 @@ export class AuthService {
   private jwtService: JwtService;
   constructor(
     private readonly moduleRef: ModuleRef,
-    @Inject("IUserRepository")
-    private userRepository: IUserRepository
+    @Inject('IUserRepository')
+    private userRepository: IUserRepository,
   ) {}
 
   private async getJwtService(): Promise<JwtService> {
     if (!this.jwtService) {
-      this.jwtService = this.moduleRef.get(JwtService, {strict: false})
+      this.jwtService = this.moduleRef.get(JwtService, { strict: false });
     }
     return this.jwtService;
   }
@@ -41,7 +46,7 @@ export class AuthService {
   }
 
   async signIn(signInDto: SignInDto): Promise<AuthResponseDto> {
-    const user = await this.userRepository.findByEmail(signInDto.email)
+    const user = await this.userRepository.findByEmail(signInDto.email);
 
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
@@ -53,11 +58,11 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return await this.signToken(user)
+    return await this.signToken(user);
   }
 
   async signUp(signUpDto: SignUpDto): Promise<AuthResponseDto> {
-    const user = await this.userRepository.findByEmail(signUpDto.email)
+    const user = await this.userRepository.findByEmail(signUpDto.email);
     console.log(user);
     if (user) {
       throw new UnauthorizedException('User existed');
@@ -65,13 +70,15 @@ export class AuthService {
 
     const encodePassword = await bcrypt.hash(signUpDto.password, 10);
 
-    const newUser = await this.userRepository.create(new UserModel({
-      email: signUpDto.email,
-      password: encodePassword,
-    }))
+    const newUser = await this.userRepository.create(
+      new UserModel({
+        email: signUpDto.email,
+        password: encodePassword,
+      }),
+    );
 
     if (newUser === null) {
-      throw new InternalServerErrorException("Create user failed");
+      throw new InternalServerErrorException('Create user failed');
     }
 
     return await this.signToken(newUser);

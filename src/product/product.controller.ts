@@ -9,7 +9,9 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  async create(@Body() createProductDto: CreateProductDto): Promise<ProductResponseDto> {
+  async create(
+    @Body() createProductDto: CreateProductDto,
+  ): Promise<ProductResponseDto> {
     return this.productService.create(createProductDto);
   }
 
@@ -26,7 +28,7 @@ export class ProductController {
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() updateProductDto: UpdateProductDto
+    @Body() updateProductDto: UpdateProductDto,
   ): Promise<ProductResponseDto> {
     return this.productService.update(id, updateProductDto);
   }

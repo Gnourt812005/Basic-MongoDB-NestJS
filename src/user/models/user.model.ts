@@ -1,5 +1,5 @@
 export class UserModel {
-  id: string 
+  id: string;
   email: string;
   password: string;
   createdAt: Date;
@@ -8,6 +8,6 @@ export class UserModel {
     this.id = data.id || '';
     this.email = data.email || '';
     this.password = data.password || '';
-    this.createdAt = data.createdAt || new Date()
+    this.createdAt = data.createdAt || new Date();
   }
 }

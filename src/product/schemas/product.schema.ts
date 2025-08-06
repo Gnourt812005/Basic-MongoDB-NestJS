@@ -1,28 +1,28 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
 export class Product {
   @Prop()
-  name: string 
+  name: string;
 
   @Prop({
     isInteger: true,
   })
-  quantity: number
+  quantity: number;
 
   @Prop({
-    isInteger: true 
+    isInteger: true,
   })
-  price: number
+  price: number;
 
   @Prop({ default: Date.now })
-  createdAt: Date
+  createdAt: Date;
 
   @Prop({ default: Date.now })
-  updatedAt: Date
+  updatedAt: Date;
 }
 
-export const ProductSchema = SchemaFactory.createForClass(Product)
+export const ProductSchema = SchemaFactory.createForClass(Product);

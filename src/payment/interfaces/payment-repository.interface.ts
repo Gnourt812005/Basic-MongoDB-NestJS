@@ -1,4 +1,4 @@
-import { PaymentModel } from "../models/payment.model";
+import { PaymentModel } from '../models/payment.model';
 
 export interface IPaymentRepository {
   create(payment: PaymentModel): Promise<PaymentModel | null>;

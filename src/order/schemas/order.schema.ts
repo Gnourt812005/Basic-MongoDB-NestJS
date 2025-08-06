@@ -1,12 +1,16 @@
-import { Prop, Schema, SchemaFactory, Virtual } from "@nestjs/mongoose";
-import mongoose, { HydratedDocument, Types } from "mongoose";
-import { User } from "src/user/schemas/user.schema";
+import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
+import mongoose, { HydratedDocument, Types } from 'mongoose';
+import { User } from 'src/user/schemas/user.schema';
 
 export type OrderDocument = HydratedDocument<Order>;
 
 @Schema({ _id: false })
 export class OrderItem {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+    required: true,
+  })
   productId: Types.ObjectId;
 
   @Prop({ required: true, min: 1 })
@@ -18,13 +22,13 @@ export class OrderItem {
 
 @Schema()
 export class Order {
-  @Prop({ 
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'} ]
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   })
   user: Types.ObjectId | User;
 
   @Prop({ type: [OrderItem], required: true })
-  items: OrderItem[]
+  items: OrderItem[];
 
   @Prop({ default: Date.now })
   createdAt: Date;
@@ -33,10 +37,10 @@ export class Order {
     get: function (this: Order) {
       return this.items.reduce((total, item) => {
         return total + (item.price || 0) * item.quantity;
-      }, 0)
-    }
+      }, 0);
+    },
   })
-  totalPrice: number 
+  totalPrice: number;
 }
 
-export const OrderSchema = SchemaFactory.createForClass(Order)
+export const OrderSchema = SchemaFactory.createForClass(Order);
