@@ -10,7 +10,9 @@ export class OrderRepository implements IOrderRepository {
   constructor (
     @InjectConnection() private readonly connection: Connection
   ) {}
-
+  private sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   async findById(id: string): Promise<OrderModel | null> {
     
     return null
@@ -67,6 +69,10 @@ export class OrderRepository implements IOrderRepository {
         createdAt: new Date() 
       };
       
+      console.log("Waiting...")
+      await this.sleep(5000);
+      console.log("Continue")
+
       const res = await this.connection.collection("orders").insertOne(newOrder, { session }) 
       await this.connection.collection("payments").updateOne(
         { user: new Types.ObjectId(order.userId as string) },
