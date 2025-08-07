@@ -12,6 +12,18 @@ export class OrderService {
     private orderRepository: IOrderRepository,
   ) {}
 
+  async findById(id: string): Promise<OrderResponseDto | null> {
+    const order = await this.orderRepository.findById(id);
+    if (!order) throw new BadRequestException('Bad request');
+
+    return {
+      id: order.id as string,
+      userId: order.userId,
+      items: order.items,
+      createdAt: order.createdAt,
+    };
+  }
+
   async create(
     createdOrderDto: CreateOrderDto,
   ): Promise<OrderResponseDto | null> {
